@@ -5,14 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nuwan Dhananjaya | Cyber Security Portfolio</title>
     <style>
-        
+        /* Modern Cyber Security Dark Palette with Glow Accents */
         :root {
-            --bg-color: #0a0f1d;
-            --card-bg: #111a2e;
-            --accent-color: #00ffcc;
+            --bg-color: #050914; /* Darker background for particles */
+            --card-bg: rgba(17, 26, 46, 0.7); /* Glass effect background */
+            --accent-color: #00ffcc; /* Cyan */
+            --accent-purple: #8a2be2; /* Purple */
             --text-main: #ffffff;
             --text-secondary: #94a3b8;
-            --border-color: #1e293b;
+            --border-color: rgba(0, 255, 204, 0.2);
+        }
+
+        /* Light Mode Variables */
+        body.light-mode {
+            --bg-color: #f1f5f9;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --text-main: #0f172a;
+            --text-secondary: #475569;
+            --border-color: rgba(0, 200, 160, 0.4);
         }
 
         * {
@@ -27,31 +37,57 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             line-height: 1.6;
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.5s ease;
         }
 
-        
+        /* Particle Canvas Background */
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #0a1128 0%, #03050a 100%);
+            transition: background 0.5s ease;
+        }
+
+        /* Navigation Bar */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
-            background-color: rgba(10, 15, 29, 0.9);
-            backdrop-filter: blur(10px);
+            background-color: rgba(5, 9, 20, 0.85);
+            backdrop-filter: blur(15px);
             border-bottom: 1px solid var(--border-color);
             z-index: 1000;
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 1rem 5%;
+            transition: all 0.3s ease;
+        }
+
+        body.light-mode nav {
+            background-color: rgba(241, 245, 249, 0.85);
         }
 
         nav .logo {
             display: flex;
             align-items: center;
+            transition: transform 0.3s ease;
+        }
+        
+        nav .logo:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 10px var(--accent-color));
         }
 
         nav ul {
             display: flex;
             list-style: none;
+            align-items: center;
         }
 
         nav ul li {
@@ -62,18 +98,33 @@
             text-decoration: none;
             color: var(--text-main);
             font-size: 0.95rem;
-            transition: color 0.3s;
+            transition: color 0.3s, text-shadow 0.3s;
         }
 
         nav ul li a:hover {
             color: var(--accent-color);
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
         }
 
-        
+        /* Theme Toggle Button */
+        .theme-toggle {
+            cursor: pointer;
+            font-size: 1.2rem;
+            margin-left: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.2);
+        }
+
+        /* Section Layouts */
         section {
             padding: 6rem 5% 4rem 5%;
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1; /* Keep above particles */
         }
 
         .section-title {
@@ -82,9 +133,11 @@
             color: var(--text-main);
             border-left: 4px solid var(--accent-color);
             padding-left: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        
+        /* Hero / Professional Statement Section */
         #hero {
             display: flex;
             align-items: center;
@@ -99,13 +152,16 @@
         }
 
         .hero-text h1 {
-            font-size: 3.5rem;
+            font-size: 4rem;
             margin-bottom: 0.5rem;
             line-height: 1.1;
+            font-weight: 800;
         }
 
         .hero-text h1 span {
-            color: var(--accent-color);
+            background: linear-gradient(to right, var(--accent-color), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .hero-text h2 {
@@ -114,6 +170,14 @@
             margin-bottom: 1.5rem;
             font-weight: 400;
         }
+
+        /* Typing Effect Styles */
+        .typing-text::after {
+            content: '|';
+            animation: blink 1s infinite;
+            color: var(--accent-color);
+        }
+        @keyframes blink { 50% { opacity: 0; } }
 
         .hero-text p {
             color: var(--text-secondary);
@@ -134,10 +198,17 @@
             border-radius: 50%;
             border: 3px solid var(--accent-color);
             object-fit: cover;
-            box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
+            box-shadow: 0 0 25px rgba(0, 255, 204, 0.3);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+        
+        .profile-img:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 0 40px rgba(138, 43, 226, 0.5); /* Purple glow on hover */
+            border-color: var(--accent-purple);
         }
 
-        
+        /* Buttons */
         .btn {
             display: inline-block;
             background-color: transparent;
@@ -150,32 +221,48 @@
             text-decoration: none;
             transition: all 0.3s ease;
             cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        body.light-mode .btn {
+            color: #0d9488;
+            border-color: #0d9488;
         }
 
         .btn:hover {
             background-color: var(--accent-color);
-            color: var(--bg-color);
-            box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+            color: #000;
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.6);
+            transform: translateY(-3px);
         }
 
-        
+        body.light-mode .btn:hover {
+            background-color: #0d9488;
+            color: #fff;
+        }
+
+        /* Grid Configurations */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
         }
 
+        /* Glassmorphism Cards */
         .card {
             background-color: var(--card-bg);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--border-color);
             padding: 1.8rem;
-            border-radius: 8px;
-            transition: transform 0.3s, border-color 0.3s;
+            border-radius: 12px;
+            transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
         }
 
         .card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
             border-color: var(--accent-color);
+            box-shadow: 0 10px 30px rgba(0, 255, 204, 0.15);
         }
 
         .card h3 {
@@ -191,6 +278,10 @@
             font-weight: 600;
         }
 
+        body.light-mode .card .subtitle {
+            color: #0d9488;
+        }
+
         .card p {
             color: var(--text-secondary);
             font-size: 0.95rem;
@@ -202,21 +293,39 @@
 
         .badge {
             display: inline-block;
-            background: rgba(0, 255, 204, 0.1);
+            background: rgba(0, 255, 204, 0.05);
             color: var(--accent-color);
-            padding: 0.2rem 0.6rem;
-            border-radius: 4px;
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
             font-size: 0.8rem;
             margin-right: 0.5rem;
             margin-bottom: 0.5rem;
+            border: 1px solid rgba(0, 255, 204, 0.2);
+            transition: all 0.3s ease;
         }
 
+        body.light-mode .badge {
+            color: #0d9488;
+            border-color: rgba(13, 148, 136, 0.3);
+            background: rgba(13, 148, 136, 0.05);
+        }
         
+        .badge:hover {
+            background: rgba(0, 255, 204, 0.2);
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
+        }
+
+        /* Contact Details Layout */
         .contact-wrapper {
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
             gap: 2rem;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
         }
 
         .contact-info {
@@ -227,14 +336,23 @@
         .contact-info p {
             margin-bottom: 1rem;
             color: var(--text-secondary);
+            display: flex;
+            align-items: center;
         }
 
         .contact-info strong {
-            color: var(--text-main);
+            color: var(--accent-color);
+            margin-right: 10px;
+        }
+
+        body.light-mode .contact-info strong {
+            color: #0d9488;
         }
 
         .social-links {
             margin-top: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
         }
 
         .social-links .btn {
@@ -242,17 +360,88 @@
             margin-bottom: 1rem;
         }
 
-        
+        /* Transmission Form Styles */
+        .transmission-form-container {
+            margin-top: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .transmission-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .transmission-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--text-secondary);
+            color: var(--text-main);
+            padding: 0.8rem 0;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .transmission-input:focus {
+            border-bottom-color: var(--accent-color);
+        }
+
+        body.light-mode .transmission-input:focus {
+            border-bottom-color: #0d9488;
+        }
+
+        .transmission-input::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.8;
+        }
+
+        .btn-transmit {
+            background-color: var(--accent-color);
+            color: #000;
+            border-radius: 30px;
+            padding: 1rem;
+            border: none;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 1rem;
+        }
+
+        body.light-mode .btn-transmit {
+            background-color: #0d9488;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(13, 148, 136, 0.4);
+        }
+
+        .btn-transmit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(0, 255, 204, 0.8);
+        }
+
+        body.light-mode .btn-transmit:hover {
+            box-shadow: 0 0 30px rgba(13, 148, 136, 0.8);
+        }
+
+        /* Footer */
         footer {
             text-align: center;
             padding: 2rem;
             border-top: 1px solid var(--border-color);
             color: var(--text-secondary);
             font-size: 0.9rem;
-            background-color: var(--bg-color);
+            position: relative;
+            z-index: 1;
         }
 
-        
+        /* Mobile Responsive Breakpoints */
         @media (max-width: 768px) {
             nav {
                 flex-direction: column;
@@ -271,6 +460,12 @@
                 margin-left: 0;
             }
 
+            .theme-toggle {
+                position: absolute;
+                top: 1.5rem;
+                right: 5%;
+            }
+
             section {
                 padding: 8rem 5% 3rem 5%;
             }
@@ -279,7 +474,6 @@
                 flex-direction: column-reverse; 
                 text-align: center; 
                 justify-content: center;
-                
                 padding-top: 11rem; 
             }
 
@@ -288,11 +482,7 @@
             }
 
             .hero-text h1 { 
-                font-size: 2.3rem; 
-            }
-
-            .hero-text h2 {
-                font-size: 1.2rem;
+                font-size: 2.8rem; 
             }
 
             .profile-img {
@@ -308,6 +498,8 @@
 </head>
 <body>
 
+    <canvas id="particles-js"></canvas>
+
     <nav>
         <div class="logo"><img src="dp.png" height="50px" width="50px" alt="Logo"></div>
         <ul>
@@ -317,6 +509,9 @@
             <li><a href="#projects">Projects</a></li>
             <li><a href="#achievements">Achievements</a></li>
             <li><a href="#contact">Contact</a></li>
+            <li class="theme-toggle" onclick="toggleTheme()" title="Toggle Light/Dark Mode">
+                <span id="theme-icon">☀️</span>
+            </li>
         </ul>
     </nav>
 
@@ -324,7 +519,7 @@
         <div class="hero-text">
             <h2>Hello, I am</h2>
             <h1>Nuwan <span>Dhananjaya</span></h1>
-            <h2>Cyber Security & IT Student</h2>
+            <h2>> <span class="typing-text"></span></h2>
             <p>
                 I am a highly motivated individual with a strong technical background. 
                 I possess excellent skills in infrastructure troubleshooting, problem-solving, team coordination, 
@@ -338,7 +533,7 @@
         </div>
     </section>
 
-    <hr style="border-color: var(--border-color); margin: 0 5%;">
+    <hr style="border-color: rgba(255,255,255,0.05); margin: 0 5%;">
 
     <section id="education">
         <h2 class="section-title">Education Details</h2>
@@ -358,10 +553,16 @@
                 <div class="subtitle">IMBS Green Campus (2024 - 2025)</div>
                 <p>Comprehensive curriculum covering core recruitment operations, employee relations, and organizational psychology dynamics.</p>
             </div>
+            <!-- නව අධ්‍යාපනික සුදුසුකම ඇතුළත් කරන ලදී -->
+            <div class="card">
+                <h3>Certificate in Business Management & Marketing</h3>
+                <div class="subtitle">IBMS Campus (2025)</div>
+                <p>Acquired foundational knowledge in business operations, strategic marketing principles, and corporate management practices.</p>
+            </div>
         </div>
     </section>
 
-    <hr style="border-color: var(--border-color); margin: 0 5%;">
+    <hr style="border-color: rgba(255,255,255,0.05); margin: 0 5%;">
 
     <section id="experience">
         <h2 class="section-title">Professional Experience</h2>
@@ -374,7 +575,7 @@
                     in network administration, large-scale data analysis frameworks, and hardware/software troubleshooting 
                     protocols designed to optimize operational business uptime.
                 </p>
-                <div class="badge-list" style="margin-top: 1.5rem;">
+                <div class="badge-list">
                     <span class="badge">Network Management</span>
                     <span class="badge">Data Analysis</span>
                     <span class="badge">Software Troubleshooting</span>
@@ -384,7 +585,7 @@
         </div>
     </section>
 
-    <hr style="border-color: var(--border-color); margin: 0 5%;">
+    <hr style="border-color: rgba(255,255,255,0.05); margin: 0 5%;">
 
     <section id="projects">
         <h2 class="section-title">Project Work</h2>
@@ -412,7 +613,7 @@
         </div>
     </section>
 
-    <hr style="border-color: var(--border-color); margin: 0 5%;">
+    <hr style="border-color: rgba(255,255,255,0.05); margin: 0 5%;">
 
     <section id="achievements">
         <h2 class="section-title">Achievements & Activities</h2>
@@ -425,7 +626,7 @@
         </div>
     </section>
 
-    <hr style="border-color: var(--border-color); margin: 0 5%;">
+    <hr style="border-color: rgba(255,255,255,0.05); margin: 0 5%;">
 
     <section id="contact">
         <h2 class="section-title">Get In Touch</h2>
@@ -440,11 +641,160 @@
                 <a href="https://www.linkedin.com/in/nuwan-dananjaya-317273224" target="_blank" class="btn">LinkedIn Profile</a>
             </div>
         </div>
+
+        <!-- ඊමේල් ලැබෙන පරිදි සකසන ලද Transmission Form (FormSubmit) -->
+        <div class="transmission-form-container card">
+            <form class="transmission-form" action="https://formsubmit.co/dananjayanuwan304@gmail.com" method="POST">
+                <!-- Spam Verification අක්‍රිය කිරීමට -->
+                <input type="hidden" name="_captcha" value="false">
+                
+                <input type="text" name="Name" class="transmission-input" placeholder="Name" required>
+                <input type="email" name="Email" class="transmission-input" placeholder="Secure Email" required>
+                <input type="text" name="Subject" class="transmission-input" placeholder="Subject" required>
+                <textarea name="Message" rows="4" class="transmission-input" placeholder="Encrypted Message" required></textarea>
+                <button type="submit" class="btn-transmit">SEND TRANSMISSION</button>
+            </form>
+        </div>
     </section>
 
     <footer>
         <p><b>&copy; 2026 Nuwan Dhananjaya. All Rights Reserved.</b></p>
     </footer>
 
+    <script>
+        // --- Light/Dark Mode Toggle Logic ---
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            const icon = document.getElementById('theme-icon');
+            const particles = document.getElementById('particles-js');
+            
+            if(document.body.classList.contains('light-mode')) {
+                icon.innerText = '🌙'; // Moon icon for dark mode trigger
+                particles.style.background = 'radial-gradient(circle at center, #f1f5f9 0%, #e2e8f0 100%)';
+            } else {
+                icon.innerText = '☀️'; // Sun icon for light mode trigger
+                particles.style.background = 'radial-gradient(circle at center, #0a1128 0%, #03050a 100%)';
+            }
+        }
+
+        // --- 1. Typing Effect Logic ---
+        const phrases = [
+            "Cyber Security & IT Student",
+            "Future Security Analyst",
+            "Network Defender",
+            "Ethical Hacking Enthusiast"
+        ];
+        let i = 0;
+        let j = 0;
+        let isDeleting = false;
+        let isWaiting = false;
+        const targetText = document.querySelector('.typing-text');
+
+        function loop() {
+            if(isWaiting) return;
+            targetText.innerHTML = phrases[i].substring(0, j);
+
+            if (!isDeleting && j <= phrases[i].length) {
+                j++;
+                setTimeout(loop, 100);
+            } else if (isDeleting && j >= 0) {
+                j--;
+                setTimeout(loop, 50);
+            } else if (j == phrases[i].length + 1) {
+                isWaiting = true;
+                isDeleting = true;
+                setTimeout(() => { isWaiting = false; loop(); }, 2000);
+            } else if (isDeleting && j === 0) {
+                isDeleting = false;
+                i++;
+                if (i == phrases.length) i = 0;
+                setTimeout(loop, 500);
+            }
+        }
+        document.addEventListener('DOMContentLoaded', loop);
+
+        // --- 2. Canvas Particles System Logic ---
+        const canvas = document.getElementById("particles-js");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particlesArray = [];
+        const numberOfParticles = 80;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                // Wrap around edges
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.y < 0) this.y = canvas.height;
+                if (this.y > canvas.height) this.y = 0;
+            }
+            draw() {
+                // Adjust particle color slightly based on theme
+                ctx.fillStyle = document.body.classList.contains('light-mode') ? 'rgba(13, 148, 136, 0.5)' : 'rgba(0, 255, 204, 0.5)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particlesArray = [];
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function handleParticles() {
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+                
+                // Draw connecting lines
+                for (let j = i; j < particlesArray.length; j++) {
+                    const dx = particlesArray[i].x - particlesArray[j].x;
+                    const dy = particlesArray[i].y - particlesArray[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 100) {
+                        ctx.beginPath();
+                        let alpha = 0.1 - distance/1000;
+                        ctx.strokeStyle = document.body.classList.contains('light-mode') ? `rgba(13, 148, 136, ${alpha})` : `rgba(0, 255, 204, ${alpha})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+                        ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            handleParticles();
+            requestAnimationFrame(animate);
+        }
+
+        // Handle Resize for Canvas
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        });
+
+        initParticles();
+        animate();
+    </script>
 </body>
 </html>
